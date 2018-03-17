@@ -1,4 +1,4 @@
-<h1>WPhunter Tool</h1>
+<h1>WPHunter Tool</h1>
 <p><a href="https://github.com/Jamalc0m/wphunter/"><img src="https://img.shields.io/badge/WPHunter-0.1-blue.svg" alt="Version" data-canonical-src="https://img.shields.io/badge/Release-Beta-orange.svg" style="max-width:100%;"></a>
 <a href="https://github.com/Jamalc0m/wphunter/"><img src="https://img.shields.io/badge/Release-Stable-orange.svg" alt="Stage" data-canonical-src="https://img.shields.io/badge/Release-Stable-orange.svg" style="max-width:100%;"></a>
 <a href="https://github.com/Jamalc0m/wphunter/"><img src="https://img.shields.io/badge/Supported%20OS-Linux%2FWindows%2FOSX-red.svg" alt="Build" data-canonical-src="https://img.shields.io/badge/Supported%20OS-Linux%2FWindows-brightgreengreen.svg" style="max-width:100%;"></a></p>
@@ -69,5 +69,7 @@ php wphunter.php
 ```
 <h2>Version</h2>
 <strong>Current version is 0.1 Beta</strong>
+<strong>UpComing features:</strong>
+<p>Scan for plugins and theme vulnerabilities, generate reports (PDF,HTML), Passowrd Brute Force.</p>
 
 
