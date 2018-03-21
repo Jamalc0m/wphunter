@@ -50,7 +50,10 @@ function path_disclosure($url){
 	//              .':oxxxxxxxxx.ckkkkkkkkxl,.
 	//                  .,cdxxxxx.ckkkkkxc.
 	//                     .':odx.ckxl,.
-	//                         .,.'";
+	//                         .,.'";//
+	/** 
+	 * the logo to be changed later 
+	*/ 
 	 	$agent ="'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';";
 	 	$dir_listening =  array("wp-includes/ms-settings.php","wp-includes/post-template.php",'wp-includes/shortcodes.php','wp-includes/rss-functions.php');
 		// echo '------------------------------------------------';
@@ -103,11 +106,11 @@ function path_disclosure($url){
 				}else 
 				echo $f." Protects against Clickjacking attacks is \033[1;31m Not set\033[0m".PHP_EOL;		
 	}	
-
+	
 	function backup_fuzzer($url){
 		$OriginalUserAgent = ini_get('user_agent');
 		ini_set('user_agent', 'Mozilla/5.0');
-	   $data= array('wp-config.php~','wp-config.php.save','test.php','wp-config.php.swp','wp-config.php.swp','wp-config.php.swo','wp-config.php_bak','index.php.bak','wp-config.old','wp-config.php1','wp-config.php2','wp-config.php.tmp','wp-config-backup.php','wp-config.bak', 'wp-config.php.bak', 'wp-config.save', 'wp-config.old', 'wp-config.php.old','wp-config.php.orig','wp-config.orig','wp-config.php.original', 'wp-config.original','wp-config.txt','.git','.svn','.htaccess','.git/info');
+	   $data= array('info.php','wp-config.php~','wp-config.php.save','test.php','wp-config.php.swp','wp-config.php.swp','wp-config.php.swo','wp-config.php_bak','index.php.bak','wp-config.old','wp-config.php1','wp-config.php2','wp-config.php.tmp','wp-config-backup.php','wp-config.bak', 'wp-config.php.bak', 'wp-config.save', 'wp-config.old', 'wp-config.php.old','wp-config.php.orig','wp-config.orig','wp-config.php.original', 'wp-config.original','wp-config.txt','.git','.svn','.htaccess','.git/info');
 		$count='';
 		for($i=0;$i<count($data);$i++){
 			$response=get_headers($url.$data[$i],1);
@@ -115,7 +118,7 @@ function path_disclosure($url){
 			$res=$http_response_header[0];
 			//print_r($res);
 			if (strchr($res,'200')) {
-				echo "Backup File found: ".$url.$data[$i]."\n";
+				echo "\033[1;35m interesting File found: \033[0m".$url.$data[$i]."\n";
 			}
 		}
 	}
@@ -138,19 +141,35 @@ function path_disclosure($url){
 	          \          /
 	     WPHunter.co"."\033[0m".PHP_EOL;
 	$param = $_SERVER["argv"][1];
+
 	if($param == '-h'|| $param == '-help'|| $param == '--help' || $param == '--h'){
-		echo "\033[1;33m To scan a target, Use: user$ ".$_SERVER["argv"][0]." example.com"."\033[0m".PHP_EOL;
+		echo "\033[1;33m To scan a target, Use: user$ ".$_SERVER["argv"][0]." https://www.example.com"."\033[0m".PHP_EOL;
 		die;
 	}
 	if(empty($param))
 	{
-	  echo "\033[1;35m Target URL is required! .. Please use: ".$_SERVER["argv"][0]." https://www.example.com"."\033[0m".PHP_EOL;
-	  die;
+	    echo "\033[1;35m Target URL is required! .. Please use: ".$_SERVER["argv"][0]." https://www.example.com"."\033[0m".PHP_EOL;
+	    die;
 	}
+		  
+	if (filter_var($param, FILTER_VALIDATE_URL) === FALSE) {
+		print('Not a valid URL .. please use the full format eg: https://example.com')."\n";die;
+	}
+
+	$url_handler= parse_url($param);
+	if(!isset($url_handler['scheme']) || $url_handler['scheme'] == ''){
+		$param = 'https://'.$param;
+		$result =get_headers($param.$array[$i],1);
+		$res=$http_response_header[0];
+		   //print_r($res);
+		   if (!strchr($res,'200')) {
+			   $param = 'http://'.$param;
+		   }
+	   }
+
 	$count=1;
 		echo "\033[1;31m Started Scanning the Target "."\033[0m";
 		sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".".PHP_EOL."\033[0m";
-		PHP_EOL; 
 		$url= $_SERVER["argv"][1].'/';
 		$array =   array('wp-admin','wp-content','wp-includes');
 		for($i=0;$i<=count($array);$i++){
@@ -171,7 +190,7 @@ function path_disclosure($url){
 		printf($mask, 'ID', '  Users');
 		echo "-------------------------------------------\n";
 		//sleep(1);
-		for ($j = 1; $j <= 21; $j++){
+		for ($j = 1; $j <= 22; $j++){
 			$response=get_headers($url.'/?author='.$j,1);
 			//$location=array();
 			$location = $response['Location'];
@@ -197,7 +216,10 @@ function path_disclosure($url){
 			}
 
 			if(!empty($user)){
-			printf($mask, $j, $user);	
+			    printf($mask, $j, $user);	
+			}
+			if($j > 21 && $user == ''){
+				printf($mask, '', "Couldn't fetch the users!");	
 			}
 		}
 		
@@ -281,7 +303,8 @@ function path_disclosure($url){
 					if (!empty($full_version)) {
 						$version1[]=$full_version[0];
 					}
-				}			
+				}
+					
 				if(empty($version1)){
 					$version1=trim($version_result[1]);
 				}
@@ -289,14 +312,36 @@ function path_disclosure($url){
 					$version_result[0] = $version1;
 				}
 				$final1 = trim($version_result[1] != '' ? $version_result[1] : $version_result[0]); /// change here same same
+				if(empty($final1))
+				{
+					//detection from feed/rdf
+					$data=file_get_contents("$url/feed/rdf");
+					preg_match_all( '#".*/?v=(.*?)"\s* #i', $data, $results );
+					$data=$results[0];
+					$full_version = str_replace('"https://wordpress.org/?v=','',$data[0]);
+					$full_version = str_replace('"','',$full_version);
+					$final1= strip_tags($full_version);
+				}
+				if(empty($final1)){
+					// detetction from atom .. piece of shit this
+					$data1=file_get_contents($url."/feed/atom/");
+					preg_match( '/<generator uri="(.*?)" ?version="(.*?)"/U', $data1, $results );
+					$final1 = strip_tags($results[2]);
+				}
+				if(empty($final1)){
+					$data1=file_get_contents($url."/wp-links-opml.php");
+					preg_match_all( '/generator="(.*?)" -->/U', $data1, $results );
+					$data=($results[1]);
+					$final1 = str_replace('WordPress/','',$data);
+				}
 				$final = str_replace('.','',$final1);
+	
 			}// end j++ 
 
 			$j++;
 		}//  
-
 			
-			    $url_1= ("https://www.wphunter.co/api/?wp=".trim($final));
+				$url_1= ("https://www.wphunter.co/api/?wp=".trim($final));
 				$data = sendRequest($url_1);
 				$result = json_decode($data);
 				echo "\033[0;34m Website is using WordPress Version: ".$final1."\033[0m\n";sleep(1);
@@ -421,7 +466,6 @@ function path_disclosure($url){
 		backup_fuzzer($url);	
 		path_disclosure($url);	
 	}	
-
 
 chota();
 
