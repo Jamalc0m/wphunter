@@ -339,7 +339,7 @@ function path_disclosure($url){
 			}// end j++ 
 
 			$j++;
-		}//  
+		} 
 			
 				$url_1= ("https://www.wphunter.co/api/?wp=".trim($final));
 				$data = sendRequest($url_1);
