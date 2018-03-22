@@ -169,7 +169,7 @@ function path_disclosure($url){
 
 	$count=1;
 		echo "\033[1;31m Started Scanning the Target "."\033[0m";
-		sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".".PHP_EOL."\033[0m";
+		echo "....".PHP_EOL."\033[0m";
 		$url= $_SERVER["argv"][1].'/';
 		$array =   array('wp-admin','wp-content','wp-includes');
 		for($i=0;$i<=count($array);$i++){
@@ -183,7 +183,7 @@ function path_disclosure($url){
 				}
 			}
 		}
-		echo "\033[1;31m Dumping the users .";sleep(1);echo ".";sleep(1);echo "."."\033[0m".PHP_EOL;
+		echo "\033[1;31m Dumping the users ..."."\033[0m".PHP_EOL;
 		//sleep(1);
 		echo "-------------------------------------------\n";
 		$mask = "|%5.5s ||%-30.40s ||\n";
@@ -230,7 +230,7 @@ function path_disclosure($url){
 		if(!empty($lang)){
 		echo "Technology: ".trim($lang[1]).PHP_EOL;
 		}
-		echo "\033[1;31m Please wait .";sleep(1);echo ".";sleep(1);echo "."."\033[0m".PHP_EOL;
+		echo "\033[1;31m Please wait ..."."\033[0m".PHP_EOL;
 
 	    $array =   array('wp-admin','wp-content','wp-includes','readme.html');
 		$j=0;
@@ -344,8 +344,8 @@ function path_disclosure($url){
 				$url_1= ("https://www.wphunter.co/api/?wp=".trim($final));
 				$data = sendRequest($url_1);
 				$result = json_decode($data);
-				echo "\033[0;34m Website is using WordPress Version: ".$final1."\033[0m\n";sleep(1);
-				echo "\033[1;33m Vulnerabilities Found affecting this version: "."\033[0m\n";sleep(2);
+				echo "\033[0;34m Website is using WordPress Version: ".$final1."\033[0m\n";
+				echo "\033[1;33m Vulnerabilities Found affecting this version: "."\033[0m\n";
 				//	echo "+--------------------------------------------------------------------------------------------------------------------+\n";
 				//	$mask = "+%5.5s | %-30.80s | %-10.10s| %-10.100s | %-80.60s +\n";
 				//	printf($mask, 'ID', 'Title','CVE','Resources','Published');
