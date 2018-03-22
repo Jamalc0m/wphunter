@@ -10,8 +10,8 @@ function sendRequest($url,$ssl=false){
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,$ssl);
 			curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 			curl_setopt($ch, CURLOPT_VERBOSE, 0);
 			$result = curl_exec($ch);
