@@ -10,8 +10,8 @@ function sendRequest($url,$ssl=false){
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,$ssl);
 			curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 			curl_setopt($ch, CURLOPT_VERBOSE, 0);
 			$result = curl_exec($ch);
@@ -169,7 +169,7 @@ function path_disclosure($url){
 
 	$count=1;
 		echo "\033[1;31m Started Scanning the Target "."\033[0m";
-		sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".";sleep(1);echo ".".PHP_EOL."\033[0m";
+		echo "....".PHP_EOL."\033[0m";
 		$url= $_SERVER["argv"][1].'/';
 		$array =   array('wp-admin','wp-content','wp-includes');
 		for($i=0;$i<=count($array);$i++){
@@ -183,7 +183,7 @@ function path_disclosure($url){
 				}
 			}
 		}
-		echo "\033[1;31m Dumping the users .";sleep(1);echo ".";sleep(1);echo "."."\033[0m".PHP_EOL;
+		echo "\033[1;31m Dumping the users ..."."\033[0m".PHP_EOL;
 		//sleep(1);
 		echo "-------------------------------------------\n";
 		$mask = "|%5.5s ||%-30.40s ||\n";
@@ -230,7 +230,7 @@ function path_disclosure($url){
 		if(!empty($lang)){
 		echo "Technology: ".trim($lang[1]).PHP_EOL;
 		}
-		echo "\033[1;31m Please wait .";sleep(1);echo ".";sleep(1);echo "."."\033[0m".PHP_EOL;
+		echo "\033[1;31m Please wait ..."."\033[0m".PHP_EOL;
 
 	    $array =   array('wp-admin','wp-content','wp-includes','readme.html');
 		$j=0;
@@ -344,8 +344,8 @@ function path_disclosure($url){
 				$url_1= ("https://www.wphunter.co/api/?wp=".trim($final));
 				$data = sendRequest($url_1);
 				$result = json_decode($data);
-				echo "\033[0;34m Website is using WordPress Version: ".$final1."\033[0m\n";sleep(1);
-				echo "\033[1;33m Vulnerabilities Found affecting this version: "."\033[0m\n";sleep(2);
+				echo "\033[0;34m Website is using WordPress Version: ".$final1."\033[0m\n";
+				echo "\033[1;33m Vulnerabilities Found affecting this version: "."\033[0m\n";
 				//	echo "+--------------------------------------------------------------------------------------------------------------------+\n";
 				//	$mask = "+%5.5s | %-30.80s | %-10.10s| %-10.100s | %-80.60s +\n";
 				//	printf($mask, 'ID', 'Title','CVE','Resources','Published');
@@ -427,21 +427,21 @@ function path_disclosure($url){
 			$url = $_SERVER["argv"][1].'/';
 			$d = sendRequest("https://www.wphunter.co/api/list.php?site=".$url);
 			$s = json_decode($d,TRUE);
-			echo "\033[1;34m [+] Checking the website from malware and blacklist domain"."\033[0m"."\n\n";sleep(1);
-			echo "[+] Kaspersky: ".$s["scans"]['Kaspersky']['result']."\n";sleep(1);
-			echo "[+] BitDefender: ".$s["scans"]['BitDefender']['result']."\n";sleep(1); 
+			echo "\033[1;34m [+] Checking the website from malware and blacklist domain"."\033[0m"."\n\n";
+			echo "[+] Kaspersky: ".$s["scans"]['Kaspersky']['result']."\n";
+			echo "[+] BitDefender: ".$s["scans"]['BitDefender']['result']."\n";
 			echo "[+] ESET: ".$s["scans"]['ESET']['result']."\n";  
 			echo "[+] Avira: ".$s["scans"]['Avira']['result']."\n";  
 			echo "[+] Google Safebrowsing: ".$s["scans"]['Google Safebrowsing']['result']."\n";  
 			echo "[+] OpenPhish: ".$s["scans"]['OpenPhish']['result']."\n"; 
-			echo "[+] DNS8: ".$s["scans"]['DNS8']['result']."\n"; sleep(1);
+			echo "[+] DNS8: ".$s["scans"]['DNS8']['result']."\n";
 			echo "[+] VX Vault: ".$s["scans"]['VX Vault']['result']."\n";  
 			echo "[+] ZDB Zeus: ".$s["scans"]['ZDB Zeus']['result']."\n";  
 			echo "[+] ZCloudsec: ".$s["scans"]['ZCloudsec']['result']."\n";  
 			echo "[+] PhishLabs: ".$s["scans"]['PhishLabs']['result']."\n"; 
 			echo "[+] Zerofox: ".$s["scans"]['Zerofox']['result']."\n"; 
 			echo "[+] K7AntiVirus: ".$s["scans"]['K7AntiVirus']['result']."\n"; 
-			echo "[+] FraudSense: ".$s["scans"]['FraudSense']['result']."\n"; sleep(1);
+			echo "[+] FraudSense: ".$s["scans"]['FraudSense']['result']."\n";
 			echo "[+] Virusdie External Site Scan: ".$s["scans"]['Virusdie External Site Scan']['result']."\n";  
 			echo "[+] Quttera: ".$s["scans"]['Quttera']['result']."\n"; 
 			echo "[+] AegisLab WebGuard: ".$s["scans"]['AegisLab WebGuard']['result']."\n";  
